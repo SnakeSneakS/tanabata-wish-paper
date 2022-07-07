@@ -1,6 +1,7 @@
 {
   "name": "tanabata-wish-paper",
   "version": "0.1.0",
+  "homepage": "./",
   "private": true,
   "dependencies": {
     "@react-three/fiber": "^8.0.27",
