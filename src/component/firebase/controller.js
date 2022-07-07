@@ -1,4 +1,4 @@
-import { addDoc, collection, doc, getDocs } from "firebase/firestore"
+import { addDoc, collection, getDocs } from "firebase/firestore"
 import { db } from "./config"
 
 const docName = "wishes";

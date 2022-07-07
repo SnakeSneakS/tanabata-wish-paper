@@ -1,6 +1,6 @@
-import { Canvas, useFrame, useLoader } from "@react-three/fiber"
+import { Canvas, useFrame } from "@react-three/fiber"
 import { useEffect, useRef, useState } from "react"
-import { CanvasTexture, Color, Points, PointsMaterial, TextureLoader, Vector3 } from "three"
+import { CanvasTexture, Points, PointsMaterial, Vector3 } from "three"
 import { randFloat, randInt } from "three/src/math/MathUtils"
 
 const sumVector3 = (vec1,vec2) => {
@@ -13,7 +13,7 @@ const sumVector3 = (vec1,vec2) => {
 
 const WishPaper = (props={texts: ["test"], position: [0,0,0], cameraPosition: [0,0,10]}) => {
   const mesh = useRef()
-  const [hovered, setHover] = useState(false)
+  //const [hovered, setHover] = useState(false)
   const [active, setActive] = useState(false)
   //useFrame((state, delta) => (mesh.current.rotation.x += 0.01))
   //const colorMap = useLoader(TextureLoader, 'images/test.jpeg');
@@ -32,7 +32,7 @@ const WishPaper = (props={texts: ["test"], position: [0,0,0], cameraPosition: [0
   useEffect(()=>{
     setCameraFacePosition(sumVector3(cameraPosition, cameraFaceOffset));
     
-  });
+  }, []);
 
   useEffect(()=>{
     const tcan = TextCanvas(props.texts);
@@ -57,9 +57,7 @@ const WishPaper = (props={texts: ["test"], position: [0,0,0], cameraPosition: [0
       position={active?cameraFacePosition:position}
       scale={1}
       ref={mesh}
-      onClick={(event) => setActive(!active)}
-      onPointerOver={(event) => setHover(true)}
-      onPointerOut={(event) => setHover(false)}>
+      onClick={(event) => setActive(!active)}>
       <planeGeometry args={canSize}></planeGeometry>
       <meshStandardMaterial map={textTexture} />
     </mesh>
@@ -67,7 +65,7 @@ const WishPaper = (props={texts: ["test"], position: [0,0,0], cameraPosition: [0
 }
 
 
-const TextCanvas = (texts_raw=[]) => {
+const TextCanvas = (texts_raw=[""]) => {
   //limit char num per line
   const textLengthLimitPerLine = 16;
   let texts = new Array();
@@ -128,7 +126,8 @@ export const World = (props={wishes: [{name: "name", content: "content"}]}) => {
     return pos;
   };
 
-  //わかんね 
+  //わからん 
+  /*
   const calcAngle = (position) => {
     let angle = [0,0,0];
     
@@ -139,6 +138,7 @@ export const World = (props={wishes: [{name: "name", content: "content"}]}) => {
     //angle=[0,0,0];
     return angle;
   }
+  */
 
   const arrangeWishes = (wishes=[]) => {
     const arr = wishes.map((wish)=>({
@@ -146,18 +146,11 @@ export const World = (props={wishes: [{name: "name", content: "content"}]}) => {
       posision: calcPosition(30, randFloat(0,360), randFloat(20,-20)),
     }));
 
-    return (
-      arr.map((ele)=>(
-        <WishPaper 
-          texts={ele.texts} 
-          cameraPosition={cameraPosition}
-          position={ele.posision} 
-        ></WishPaper>
-      ))
-    )
+    return arr;
   }
 
-  //stars
+  //stars わからん
+  /*
   function Stars(props) {
     const ref = useRef()
     const [sphere] = useState(() => new Array(100).map(()=>{
@@ -179,8 +172,9 @@ export const World = (props={wishes: [{name: "name", content: "content"}]}) => {
       </group>
     )
   }
+  */
 
-  const [arrangedWishes, setArrangedWishes] = useState();
+  const [arrangedWishes, setArrangedWishes] = useState([]);
   useEffect(()=>{
     setArrangedWishes(arrangeWishes(props.wishes));
   }, [props.wishes])
@@ -200,7 +194,13 @@ export const World = (props={wishes: [{name: "name", content: "content"}]}) => {
           <ambientLight intensity={1.0} />
           <group rotation={[0,0,0]}>  
             {
-              arrangedWishes
+              arrangedWishes.map((ele)=>(
+                <WishPaper 
+                  texts={ele.texts} 
+                  cameraPosition={cameraPosition}
+                  position={ele.posision} 
+                ></WishPaper>
+              ))
             }
           </group>
         </Canvas>

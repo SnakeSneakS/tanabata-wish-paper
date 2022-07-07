@@ -1,10 +1,8 @@
-import logo from './logo.svg';
 import './App.css';
 import { World } from './component/three/test'
 import { AddWish, GetWishes } from './component/firebase/controller';
-import { Button, Container, Form, Row } from 'react-bootstrap';
+import { Button, Container, Row } from 'react-bootstrap';
 import { useEffect, useState } from 'react';
-import { Canvas } from '@react-three/fiber';
 
 
 function App() {
@@ -30,7 +28,7 @@ function App() {
   //submit wish
   const onSubmitWish = (e) => {
     e.preventDefault();
-    if(inputWishValue=="" || inputNameValue==""){
+    if(inputWishValue==="" || inputNameValue===""){
       console.error("wish or name is empty");
     }else{
       AddWish(inputNameValue, inputWishValue).then(()=>{
@@ -53,7 +51,7 @@ function App() {
           <details style={{backgroundColor: "lightGray"}}>
             <summary>願い事たち</summary>
             {
-              allWishes.length==0 && <p>願いは一つもない。悲しいね...</p>
+              allWishes.length===0 && <p>願いは一つもない。悲しいね...</p>
             }
             {
               allWishes.map((wish)=>(
