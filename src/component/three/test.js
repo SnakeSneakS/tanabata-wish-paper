@@ -16,7 +16,7 @@ const WishPaper = (props={texts: ["test"], position: [0,0,0], cameraPosition: [0
   const [hovered, setHover] = useState(false)
   const [active, setActive] = useState(false)
   //useFrame((state, delta) => (mesh.current.rotation.x += 0.01))
-  const colorMap = useLoader(TextureLoader, 'images/test.jpeg');
+  //const colorMap = useLoader(TextureLoader, 'images/test.jpeg');
   
   const maxWidth = 16;
   const maxHeight = 8;
@@ -61,7 +61,7 @@ const WishPaper = (props={texts: ["test"], position: [0,0,0], cameraPosition: [0
       onPointerOver={(event) => setHover(true)}
       onPointerOut={(event) => setHover(false)}>
       <planeGeometry args={canSize}></planeGeometry>
-      <meshStandardMaterial map={hovered?textTexture:textTexture} />
+      <meshStandardMaterial map={textTexture} />
     </mesh>
   )
 }
@@ -143,7 +143,7 @@ export const World = (props={wishes: [{name: "name", content: "content"}]}) => {
   const arrangeWishes = (wishes=[]) => {
     const arr = wishes.map((wish)=>({
       texts: [wish.name?`[${wish.name}]`:"", wish.content?wish.content:""],
-      posision: calcPosition(30, randFloat(0,360), randFloat(30,0)),
+      posision: calcPosition(30, randFloat(0,360), randFloat(20,-20)),
     }));
 
     return (
@@ -187,7 +187,7 @@ export const World = (props={wishes: [{name: "name", content: "content"}]}) => {
 
   return (
     <div>
-      <div style={{width: "300px", height: "300px", margin: "auto"}}>
+      <div style={{width: "600px", height: "400px", margin: "auto"}}>
         <Canvas
           camera={{ fov: 50, position: cameraPosition}}
           color={"black"}
